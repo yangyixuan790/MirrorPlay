@@ -1,0 +1,82 @@
+{
+  "name": "mirrorplay",
+  "productName": "MirrorPlay",
+  "version": "1.0.0",
+  "description": "免会员手游投屏 · USB 有线 + 完整键鼠映射（scrcpy 协议 · 手机端零安装）",
+  "homepage": "https://mirrorplay.app",
+  "main": "electron/main.js",
+  "license": "Apache-2.0",
+  "author": "MirrorPlay Team",
+  "scripts": {
+    "start": "electron .",
+    "icons": "node scripts/make-icons.js",
+    "dist:win": "electron-builder --win nsis msi --x64",
+    "dist:linux:dir": "electron-builder --linux dir --x64",
+    "dist:linux": "electron-builder --linux dir --x64 && node scripts/build-deb.js",
+    "dist:linux:native": "electron-builder --linux deb --x64",
+    "verify:deb": "node scripts/verify-deb.js",
+    "dist": "npm run dist:win && npm run dist:linux"
+  },
+  "devDependencies": {
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8"
+  },
+  "build": {
+    "appId": "com.mirrorplay.app",
+    "productName": "MirrorPlay",
+    "copyright": "Copyright (c) MirrorPlay",
+    "artifactName": "MirrorPlay-${version}-${os}-${arch}.${ext}",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "electronDist": "electron-dist",
+    "files": [
+      "index.html",
+      "css/**/*",
+      "js/**/*",
+      "electron/**/*",
+      "build/icon.png",
+      "build/icons/**/*"
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        { "target": "nsis", "arch": ["x64"] },
+        { "target": "msi", "arch": ["x64"] }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "MirrorPlay"
+    },
+    "linux": {
+      "icon": "build",
+      "target": [
+        { "target": "deb", "arch": ["x64"] }
+      ],
+      "category": "Game",
+      "vendor": "MirrorPlay",
+      "maintainer": "MirrorPlay Team",
+      "executableName": "mirrorplay"
+    },
+    "deb": {
+      "depends": [
+        "libgtk-3-0",
+        "libnotify4",
+        "libnss3",
+        "libxss1",
+        "libxtst6",
+        "libatspi2.0-0",
+        "libuuid1",
+        "libsecret-1-0",
+        "libasound2",
+        "xdg-utils"
+      ]
+    }
+  }
+}
