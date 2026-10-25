@@ -1,0 +1,9 @@
+# 构建产物（electron-builder / build-deb）
+dist/
+electron-dist/
+node_modules/
+*.log
+.shot.png
+
+# 代理内部记忆
+.workbuddy/
